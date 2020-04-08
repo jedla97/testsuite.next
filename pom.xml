@@ -66,7 +66,7 @@
         <suite.domain.default.profile>full</suite.domain.default.profile>
         <suite.domain.default.server>server-one</suite.domain.default.server>
         <suite.mode/>
-        <suite.url>http://localhost:9990/console/ts.html</suite.url>
+        <suite.url>http://localhost:9990/console/index.html</suite.url>
         <take.screenshot.after.each.test>false</take.screenshot.after.each.test>
 
         <!-- Just to avoid 'Invalid group expression' in maven-surefire-plugin due to empty placeholder: -->
@@ -630,11 +630,7 @@
                 </property>
             </activation>
             <properties>
-<<<<<<< HEAD
                 <test.included.category>org.jboss.hal.testsuite.category.RequiresLetsEncrypt</test.included.category>
-=======
-                <test.included.category>rg.jboss.hal.testsuite.category.RequiresLetsEncrypt</test.included.category>
->>>>>>> introduced letsencrypt profile + fixing letsencrypt tests
             </properties>
         </profile>
         <profile>

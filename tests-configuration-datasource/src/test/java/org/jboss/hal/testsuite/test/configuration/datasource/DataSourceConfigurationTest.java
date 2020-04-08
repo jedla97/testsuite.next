@@ -223,7 +223,7 @@ public class DataSourceConfigurationTest {
 
     @Test
     public void validation() throws Exception {
-        page.getTabs().select(Ids.build(Ids.DATA_SOURCE_CONFIGURATION, "validation", Ids.TAB));
+        page.getTabs().select(Ids.build(Ids.DATA_SOURCE_CONFIGURATION, "validations", Ids.TAB));
         form = page.getValidationForm();
 
         String className = Random.name();
@@ -247,7 +247,7 @@ public class DataSourceConfigurationTest {
 
     @Test
     public void timeouts() throws Exception {
-        page.getTabs().select(Ids.build(Ids.DATA_SOURCE_CONFIGURATION, "timeouts", Ids.TAB));
+        page.getTabs().select(Ids.build(Ids.DATA_SOURCE_CONFIGURATION, "timeout", Ids.TAB));
         form = page.getTimeoutsForm();
 
         long locks = Random.number(10L, 20L);
@@ -266,7 +266,7 @@ public class DataSourceConfigurationTest {
 
     @Test
     public void statementsTracking() throws Exception {
-        page.getTabs().select(Ids.build(Ids.DATA_SOURCE_CONFIGURATION, "statements-tracking", Ids.TAB));
+        page.getTabs().select(Ids.build(Ids.DATA_SOURCE_CONFIGURATION, "statements", Ids.TAB));
         form = page.getStatementsTrackingForm();
 
         crud.update(dataSourceAddress(DATA_SOURCE_UPDATE), form,

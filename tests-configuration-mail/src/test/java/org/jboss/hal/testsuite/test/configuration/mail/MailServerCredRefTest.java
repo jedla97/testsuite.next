@@ -75,7 +75,7 @@ public class MailServerCredRefTest {
     @Before
     public void setUp() throws Exception {
         page.navigate(NAME, SESSION_UPDATE);
-        console.waitNoNotification();
+        //console.waitNoNotification();
         console.verticalNavigation().selectPrimary(Ids.MAIL_SERVER_ITEM);
 
         page.getMailServerTabs().select(Ids.build(Ids.MAIL_SERVER, CREDENTIAL_REFERENCE, Ids.TAB));
@@ -157,6 +157,8 @@ public class MailServerCredRefTest {
     public void zzzDelete() throws Exception {
         crud.deleteSingleton(address(), form(),
                 resourceVerifier -> resourceVerifier.verifyAttributeIsUndefined(CREDENTIAL_REFERENCE));
+        operations.writeAttribute(serverAddress(SESSION_UPDATE, SMTP),
+                CREDENTIAL_REFERENCE, CredentialReference.storeAlias());
     }
 
 }
