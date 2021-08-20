@@ -31,12 +31,18 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.extras.creaper.commands.socketbindings.AddSocketBinding;
 import org.wildfly.extras.creaper.core.online.OnlineManagementClient;
 import org.wildfly.extras.creaper.core.online.operations.Operations;
 import org.wildfly.extras.creaper.core.online.operations.Values;
 
 import static java.util.Arrays.asList;
+import static org.jboss.hal.dmr.ModelDescriptionConstants.SOCKET_BINDING;
 import static org.jboss.hal.testsuite.fixtures.RemotingFixtures.*;
+import static org.jboss.hal.testsuite.fixtures.SocketBindingFixtures.STANDARD_SOCKETS;
+import static org.jboss.hal.testsuite.fixtures.SocketBindingFixtures.inboundAddress;
+import static org.jboss.hal.testsuite.fixtures.undertow.UndertowFixtures.DEFAULT_SERVER;
+import static org.jboss.hal.testsuite.fixtures.undertow.UndertowFixtures.httpListenerAddress;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 @RunWith(Arquillian.class)
@@ -48,6 +54,9 @@ public class HttpConnectorSecurityTest {
 
     @BeforeClass
     public static void beforeClass() throws Exception {
+        client.apply(new AddSocketBinding.Builder(HTTP_CONNECTOR_SECURITY).build());
+        operations.add(httpListenerAddress(DEFAULT_SERVER, httpConnectorRef(HTTP_CONNECTOR_SECURITY)),
+                Values.of(SOCKET_BINDING, HTTP_CONNECTOR_SECURITY));
         operations.add(httpConnectorAddress(HTTP_CONNECTOR_SECURITY),
                 Values.of(CONNECTOR_REF, httpConnectorRef(HTTP_CONNECTOR_SECURITY)));
     }
@@ -55,6 +64,8 @@ public class HttpConnectorSecurityTest {
     @AfterClass
     public static void tearDown() throws Exception {
         operations.removeIfExists(httpConnectorAddress(HTTP_CONNECTOR_SECURITY));
+        operations.removeIfExists(httpListenerAddress(DEFAULT_SERVER, httpConnectorRef(HTTP_CONNECTOR_SECURITY)));
+        operations.removeIfExists(inboundAddress(STANDARD_SOCKETS, HTTP_CONNECTOR_SECURITY));
     }
 
     @Inject private Console console;

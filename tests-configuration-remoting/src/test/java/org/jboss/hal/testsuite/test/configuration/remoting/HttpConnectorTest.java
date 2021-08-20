@@ -31,22 +31,46 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.extras.creaper.commands.socketbindings.AddSocketBinding;
 import org.wildfly.extras.creaper.core.online.OnlineManagementClient;
 import org.wildfly.extras.creaper.core.online.operations.Operations;
 import org.wildfly.extras.creaper.core.online.operations.Values;
 
 import static org.jboss.hal.dmr.ModelDescriptionConstants.NAME;
+import static org.jboss.hal.dmr.ModelDescriptionConstants.SOCKET_BINDING;
 import static org.jboss.hal.testsuite.fixtures.RemotingFixtures.*;
+import static org.jboss.hal.testsuite.fixtures.SocketBindingFixtures.STANDARD_SOCKETS;
+import static org.jboss.hal.testsuite.fixtures.SocketBindingFixtures.inboundAddress;
+import static org.jboss.hal.testsuite.fixtures.undertow.UndertowFixtures.DEFAULT_SERVER;
+import static org.jboss.hal.testsuite.fixtures.undertow.UndertowFixtures.httpListenerAddress;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class    HttpConnectorTest {
+public class HttpConnectorTest {
 
     private static final OnlineManagementClient client = ManagementClientProvider.createOnlineManagementClient();
     private static final Operations operations = new Operations(client);
 
     @BeforeClass
     public static void beforeClass() throws Exception {
+        /**
+         * HTTP connector needs valid HTTP listener with socket from EAP 7.3.4
+         * Create first socket, second add listener to undertow server and finaly create connector.
+         */
+        client.apply(new AddSocketBinding.Builder(HTTP_CONNECTOR_CREATE).build());
+        client.apply(new AddSocketBinding.Builder(HTTP_CONNECTOR_READ).build());
+        client.apply(new AddSocketBinding.Builder(HTTP_CONNECTOR_UPDATE).build());
+        client.apply(new AddSocketBinding.Builder(HTTP_CONNECTOR_DELETE).build());
+
+        operations.add(httpListenerAddress(DEFAULT_SERVER, httpConnectorRef(HTTP_CONNECTOR_CREATE)),
+                Values.of(SOCKET_BINDING, HTTP_CONNECTOR_CREATE));
+        operations.add(httpListenerAddress(DEFAULT_SERVER, httpConnectorRef(HTTP_CONNECTOR_READ)),
+                Values.of(SOCKET_BINDING, HTTP_CONNECTOR_READ));
+        operations.add(httpListenerAddress(DEFAULT_SERVER, httpConnectorRef(HTTP_CONNECTOR_UPDATE)),
+                Values.of(SOCKET_BINDING, HTTP_CONNECTOR_UPDATE));
+        operations.add(httpListenerAddress(DEFAULT_SERVER, httpConnectorRef(HTTP_CONNECTOR_DELETE)),
+                Values.of(SOCKET_BINDING, HTTP_CONNECTOR_DELETE));
+
         operations.add(httpConnectorAddress(HTTP_CONNECTOR_READ),
                 Values.of(CONNECTOR_REF, httpConnectorRef(HTTP_CONNECTOR_READ)));
         operations.add(httpConnectorAddress(HTTP_CONNECTOR_UPDATE),
@@ -61,6 +85,16 @@ public class    HttpConnectorTest {
         operations.removeIfExists(httpConnectorAddress(HTTP_CONNECTOR_READ));
         operations.removeIfExists(httpConnectorAddress(HTTP_CONNECTOR_UPDATE));
         operations.removeIfExists(httpConnectorAddress(HTTP_CONNECTOR_DELETE));
+
+        operations.removeIfExists(httpListenerAddress(DEFAULT_SERVER, httpConnectorRef(HTTP_CONNECTOR_CREATE)));
+        operations.removeIfExists(httpListenerAddress(DEFAULT_SERVER, httpConnectorRef(HTTP_CONNECTOR_READ)));
+        operations.removeIfExists(httpListenerAddress(DEFAULT_SERVER, httpConnectorRef(HTTP_CONNECTOR_UPDATE)));
+        operations.removeIfExists(httpListenerAddress(DEFAULT_SERVER, httpConnectorRef(HTTP_CONNECTOR_DELETE)));
+
+        operations.removeIfExists(inboundAddress(STANDARD_SOCKETS, HTTP_CONNECTOR_CREATE));
+        operations.removeIfExists(inboundAddress(STANDARD_SOCKETS, HTTP_CONNECTOR_READ));
+        operations.removeIfExists(inboundAddress(STANDARD_SOCKETS, HTTP_CONNECTOR_UPDATE));
+        operations.removeIfExists(inboundAddress(STANDARD_SOCKETS, HTTP_CONNECTOR_DELETE));
     }
 
     @Inject private Console console;
