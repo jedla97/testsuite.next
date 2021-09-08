@@ -13,12 +13,14 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.dmr.ModelNode;
 import org.jboss.hal.testsuite.CrudOperations;
 import org.jboss.hal.testsuite.Random;
+import org.jboss.hal.testsuite.category.RequiresXP;
 import org.jboss.hal.testsuite.creaper.ManagementClientProvider;
 import org.jboss.hal.testsuite.dmr.ModelNodeGenerator;
 import org.jboss.hal.testsuite.page.configuration.MicroprofileMetricsPage;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.wildfly.extras.creaper.core.online.OnlineManagementClient;
@@ -30,6 +32,7 @@ import static org.jboss.hal.testsuite.fixtures.microprofile.MicroprofileMetricsF
 import static org.jboss.hal.testsuite.fixtures.microprofile.MicroprofileMetricsFixtures.MICROPROFILE_METRICS_ADDRESS;
 import static org.jboss.hal.testsuite.fixtures.microprofile.MicroprofileMetricsFixtures.SECURITY_ENABLED;
 
+@Category(RequiresXP.class)
 @RunWith(Arquillian.class)
 public class MicroprofileMetricsTest {
 

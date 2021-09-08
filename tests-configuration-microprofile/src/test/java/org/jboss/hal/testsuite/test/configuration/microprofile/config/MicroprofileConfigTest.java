@@ -30,6 +30,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.dmr.ModelNode;
 import org.jboss.hal.testsuite.CrudOperations;
 import org.jboss.hal.testsuite.Random;
+import org.jboss.hal.testsuite.category.RequiresXP;
 import org.jboss.hal.testsuite.creaper.ManagementClientProvider;
 import org.jboss.hal.testsuite.fragment.FormFragment;
 import org.jboss.hal.testsuite.fragment.TableFragment;
@@ -41,6 +42,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.wildfly.extras.creaper.core.online.OnlineManagementClient;
 import org.wildfly.extras.creaper.core.online.operations.OperationException;
@@ -69,6 +71,7 @@ import static org.jboss.hal.testsuite.fixtures.microprofile.MicroprofileConfigFi
 import static org.jboss.hal.testsuite.fixtures.microprofile.MicroprofileConfigFixtures.getConfigProviderAddress;
 import static org.jboss.hal.testsuite.fixtures.microprofile.MicroprofileConfigFixtures.getConfigSourceAddress;
 
+@Category(RequiresXP.class)
 @RunWith(Arquillian.class)
 public class MicroprofileConfigTest {
 
@@ -89,8 +92,8 @@ public class MicroprofileConfigTest {
     public static void setup() throws IOException {
         moduleUtils = new ModuleUtils(client);
         JavaArchive
-            jar = ShrinkWrap.create(JavaArchive.class, ARCHIVE_NAME),
-            jarForUpdate = ShrinkWrap.create(JavaArchive.class, ARCHIVE_FOR_UPDATE_NAME);
+                jar = ShrinkWrap.create(JavaArchive.class, ARCHIVE_NAME),
+                jarForUpdate = ShrinkWrap.create(JavaArchive.class, ARCHIVE_FOR_UPDATE_NAME);
         jar.addClasses(CustomConfigSource.class, CustomConfigSourceProvider.class);
         jarForUpdate.addClasses(CustomConfigSourceForUpdate.class, CustomConfigSourceProviderForUpdate.class);
         customModuleName = moduleUtils.createModule(CUSTOM_MODULE_PATH, jar, "org.eclipse.microprofile.config.api");
@@ -140,8 +143,8 @@ public class MicroprofileConfigTest {
             form.properties(PROPERTIES).add(propertiesNode);
         }, verifier -> {
             verifier
-                .verifyExists()
-                .verifyAttribute(PROPERTIES, propertiesNode);
+                    .verifyExists()
+                    .verifyAttribute(PROPERTIES, propertiesNode);
         });
     }
 
@@ -170,11 +173,11 @@ public class MicroprofileConfigTest {
             form.textByLabel(MODULE_LABEL, customModuleName);
         }, verifier -> {
             verifier
-                .verifyExists()
-                .verifyAttribute(CLASS, new ModelNodePropertiesBuilder()
-                        .addProperty(NAME, CustomConfigSource.class.getName())
-                        .addProperty(MODULE, customModuleName)
-                        .build());
+                    .verifyExists()
+                    .verifyAttribute(CLASS, new ModelNodePropertiesBuilder()
+                            .addProperty(NAME, CustomConfigSource.class.getName())
+                            .addProperty(MODULE, customModuleName)
+                            .build());
         });
     }
 
@@ -186,10 +189,10 @@ public class MicroprofileConfigTest {
             form.textByLabel(MODULE_LABEL, customModuleForUpdateName);
         }, verifier -> {
             verifier
-                .verifyAttribute(CLASS, new ModelNodePropertiesBuilder()
-                        .addProperty(NAME, CustomConfigSourceForUpdate.class.getName())
-                        .addProperty(MODULE, customModuleForUpdateName)
-                        .build());
+                    .verifyAttribute(CLASS, new ModelNodePropertiesBuilder()
+                            .addProperty(NAME, CustomConfigSourceForUpdate.class.getName())
+                            .addProperty(MODULE, customModuleForUpdateName)
+                            .build());
         });
     }
 
@@ -202,11 +205,11 @@ public class MicroprofileConfigTest {
             form.textByLabel(MODULE_LABEL, customModuleName);
         }, verifier -> {
             verifier
-                .verifyExists()
-                .verifyAttribute(CLASS, new ModelNodePropertiesBuilder()
-                        .addProperty(NAME, CustomConfigSourceProvider.class.getName())
-                        .addProperty(MODULE, customModuleName)
-                        .build());
+                    .verifyExists()
+                    .verifyAttribute(CLASS, new ModelNodePropertiesBuilder()
+                            .addProperty(NAME, CustomConfigSourceProvider.class.getName())
+                            .addProperty(MODULE, customModuleName)
+                            .build());
         });
     }
 
@@ -218,10 +221,10 @@ public class MicroprofileConfigTest {
             form.textByLabel(MODULE_LABEL, customModuleForUpdateName);
         }, verifier -> {
             verifier
-                .verifyAttribute(CLASS, new ModelNodePropertiesBuilder()
-                        .addProperty(NAME, CustomConfigSourceProviderForUpdate.class.getName())
-                        .addProperty(MODULE, customModuleForUpdateName)
-                        .build());
+                    .verifyAttribute(CLASS, new ModelNodePropertiesBuilder()
+                            .addProperty(NAME, CustomConfigSourceProviderForUpdate.class.getName())
+                            .addProperty(MODULE, customModuleForUpdateName)
+                            .build());
         });
     }
 
@@ -231,3 +234,4 @@ public class MicroprofileConfigTest {
         crud.delete(getConfigSourceAddress(CONFIG_PROVIDER_DELETE), configProviderTable, CONFIG_PROVIDER_DELETE);
     }
 }
+
