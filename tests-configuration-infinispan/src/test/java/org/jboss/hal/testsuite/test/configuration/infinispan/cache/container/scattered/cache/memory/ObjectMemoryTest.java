@@ -1,6 +1,7 @@
 package org.jboss.hal.testsuite.test.configuration.infinispan.cache.container.scattered.cache.memory;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -20,6 +21,7 @@ import org.openqa.selenium.WebDriver;
 import org.wildfly.extras.creaper.core.online.OnlineManagementClient;
 import org.wildfly.extras.creaper.core.online.operations.OperationException;
 import org.wildfly.extras.creaper.core.online.operations.Operations;
+import org.wildfly.extras.creaper.core.online.operations.admin.Administration;
 
 import static org.jboss.hal.testsuite.fixtures.InfinispanFixtures.cacheContainerAddress;
 import static org.jboss.hal.testsuite.fixtures.InfinispanFixtures.objectMemoryAddress;
@@ -30,15 +32,17 @@ public class ObjectMemoryTest {
 
     private static final OnlineManagementClient client = ManagementClientProvider.createOnlineManagementClient();
     private static final Operations operations = new Operations(client);
+    private static final Administration administration = new Administration(client);
 
     private static final String CACHE_CONTAINER = "cache-container-" + Random.name();
     private static final String SCATTERED_CACHE = "scattered-cache-" + Random.name();
 
     @BeforeClass
-    public static void init() throws IOException {
+    public static void init() throws IOException, InterruptedException, TimeoutException {
         operations.add(cacheContainerAddress(CACHE_CONTAINER));
         operations.add(cacheContainerAddress(CACHE_CONTAINER).and("transport", "jgroups"));
         operations.add(scatteredCacheAddress(CACHE_CONTAINER, SCATTERED_CACHE));
+        administration.reload();
     }
 
     @AfterClass

@@ -10,6 +10,7 @@ import org.jboss.hal.testsuite.creaper.command.RemoveSocketBinding;
 import org.jboss.hal.testsuite.fragment.AddResourceDialogFragment;
 import org.jboss.hal.testsuite.fragment.FormFragment;
 import org.jboss.hal.testsuite.fragment.finder.ColumnFragment;
+import org.jboss.hal.testsuite.util.Library;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -59,6 +60,7 @@ public class RemoteCacheContainerFinderTest extends AbstractRemoteCacheContainer
     @Before
     public void setUp() throws Exception {
         browser.navigate().refresh();
+        Library.letsSleep(1000);
         column = console.finder(NameTokens.CONFIGURATION, configurationSubsystemPath(INFINISPAN))
             .column(Ids.CACHE_CONTAINER);
     }
