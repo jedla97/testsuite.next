@@ -17,6 +17,7 @@ import org.jboss.hal.testsuite.page.configuration.ScatteredCachePage;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -29,6 +30,7 @@ import static org.jboss.hal.testsuite.fixtures.InfinispanFixtures.cacheContainer
 import static org.jboss.hal.testsuite.fixtures.InfinispanFixtures.scatteredCacheAddress;
 
 @RunWith(Arquillian.class)
+@Ignore
 public class BinaryMemoryTest {
 
     private static final OnlineManagementClient client = ManagementClientProvider.createOnlineManagementClient();
@@ -39,9 +41,9 @@ public class BinaryMemoryTest {
 
     @BeforeClass
     public static void init() throws IOException {
-        operations.add(cacheContainerAddress(CACHE_CONTAINER));
-        operations.add(cacheContainerAddress(CACHE_CONTAINER).and("transport", "jgroups"));
-        operations.add(scatteredCacheAddress(CACHE_CONTAINER, SCATTERED_CACHE));
+        operations.add(cacheContainerAddress(CACHE_CONTAINER)).assertSuccess();
+        operations.add(cacheContainerAddress(CACHE_CONTAINER).and("transport", "jgroups")).assertSuccess();
+        operations.add(scatteredCacheAddress(CACHE_CONTAINER, SCATTERED_CACHE)).assertSuccess();
     }
 
     @AfterClass

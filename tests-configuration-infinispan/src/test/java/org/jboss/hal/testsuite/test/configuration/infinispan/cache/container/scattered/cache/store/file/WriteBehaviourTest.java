@@ -16,6 +16,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -92,6 +93,7 @@ public class WriteBehaviourTest {
     }
 
     @Test
+    @Ignore
     public void change3ThreadPoolSize() throws Exception {
         console.waitNoNotification();
         crud.update(fileStoreAddress(CACHE_CONTAINER, SCATTERED_CACHE).and(WRITE, BEHIND), form,

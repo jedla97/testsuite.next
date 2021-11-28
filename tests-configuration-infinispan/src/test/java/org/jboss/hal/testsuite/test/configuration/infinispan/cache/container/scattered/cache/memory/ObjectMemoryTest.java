@@ -14,6 +14,7 @@ import org.jboss.hal.testsuite.page.configuration.ScatteredCachePage;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -26,6 +27,7 @@ import static org.jboss.hal.testsuite.fixtures.InfinispanFixtures.objectMemoryAd
 import static org.jboss.hal.testsuite.fixtures.InfinispanFixtures.scatteredCacheAddress;
 
 @RunWith(Arquillian.class)
+@Ignore
 public class ObjectMemoryTest {
 
     private static final OnlineManagementClient client = ManagementClientProvider.createOnlineManagementClient();

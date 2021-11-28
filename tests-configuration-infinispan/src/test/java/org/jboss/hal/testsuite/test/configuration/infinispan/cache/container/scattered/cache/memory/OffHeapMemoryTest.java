@@ -17,6 +17,7 @@ import org.jboss.hal.testsuite.page.configuration.ScatteredCachePage;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -72,12 +73,14 @@ public class OffHeapMemoryTest {
     }
 
     @Test
+    @Ignore
     public void editCapacity() throws Exception {
         crudOperations.update(offHeapMemoryAddress(CACHE_CONTAINER, SCATTERED_CACHE), page.getOffHeapMemoryForm(), "capacity",
             Random.number());
     }
 
     @Test
+    @Ignore
     public void editEvictionType() throws Exception {
         console.waitNoNotification();
         String currentEvictionType =

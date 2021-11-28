@@ -19,10 +19,7 @@ import org.openqa.selenium.support.FindBy;
 
 import static org.jboss.hal.dmr.ModelDescriptionConstants.CACHE_CONTAINER;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.NAME;
-import static org.jboss.hal.resources.CSS.bootstrapSelect;
-import static org.jboss.hal.resources.CSS.btn;
-import static org.jboss.hal.resources.CSS.btnDefault;
-import static org.jboss.hal.resources.CSS.btnGroup;
+import static org.jboss.hal.resources.CSS.*;
 import static org.jboss.hal.testsuite.Selectors.contains;
 
 @Place(NameTokens.SCATTERED_CACHE)
@@ -319,7 +316,7 @@ public class ScatteredCachePage extends BasePage {
 
     public SelectFragment getSelectStoreDropdown() {
         WebElement selectStoreDropdown =
-            emptyStoreForm.getRoot().findElement(By.cssSelector("div." + btnGroup + "." + bootstrapSelect));
+            emptyStoreForm.getRoot().findElement(By.cssSelector("div."  + dropdown + "." + bootstrapSelect));
         Graphene.waitGui().until().element(selectStoreDropdown).is().visible();
         return Graphene.createPageFragment(SelectFragment.class, selectStoreDropdown);
     }

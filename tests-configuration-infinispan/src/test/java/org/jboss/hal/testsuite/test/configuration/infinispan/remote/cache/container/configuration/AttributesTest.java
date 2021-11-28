@@ -1,6 +1,7 @@
 package org.jboss.hal.testsuite.test.configuration.infinispan.remote.cache.container.configuration;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.concurrent.TimeoutException;
 
 import org.jboss.arquillian.junit.Arquillian;
@@ -11,6 +12,7 @@ import org.jboss.hal.testsuite.test.configuration.infinispan.remote.cache.contai
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.wildfly.extras.creaper.core.CommandFailedException;
@@ -67,6 +69,7 @@ public class AttributesTest extends AbstractRemoteCacheContainerTest {
     }
 
     @Test
+    @Ignore
     public void editKeySizeEstimate() throws Exception {
         crudOperations.update(remoteCacheContainerAddress(REMOTE_CACHE_CONTAINER_TO_BE_TESTED),
             page.getConfigurationForm(), "key-size-estimate", Random.number());
@@ -81,7 +84,7 @@ public class AttributesTest extends AbstractRemoteCacheContainerTest {
     @Test
     public void editModule() throws Exception {
         crudOperations.update(remoteCacheContainerAddress(REMOTE_CACHE_CONTAINER_TO_BE_TESTED),
-            page.getConfigurationForm(), "module");
+            page.getConfigurationForm(), "modules", Collections.singletonList(Random.name()));
     }
 
     @Test
@@ -119,6 +122,7 @@ public class AttributesTest extends AbstractRemoteCacheContainerTest {
     }
 
     @Test
+    @Ignore
     public void editValueSizeEstimate() throws Exception {
         crudOperations.update(remoteCacheContainerAddress(REMOTE_CACHE_CONTAINER_TO_BE_TESTED),
             page.getConfigurationForm(), "value-size-estimate", Random.number());

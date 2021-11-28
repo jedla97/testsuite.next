@@ -3,6 +3,7 @@ package org.jboss.hal.testsuite.test.configuration.infinispan.cache.container.sc
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.jboss.arquillian.core.api.annotation.Inject;
@@ -16,6 +17,7 @@ import org.jboss.hal.testsuite.page.configuration.ScatteredCachePage;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.wildfly.extras.creaper.core.online.OnlineManagementClient;
@@ -23,7 +25,6 @@ import org.wildfly.extras.creaper.core.online.operations.OperationException;
 import org.wildfly.extras.creaper.core.online.operations.Operations;
 
 import static org.jboss.hal.dmr.ModelDescriptionConstants.JGROUPS;
-import static org.jboss.hal.dmr.ModelDescriptionConstants.MODULE;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.TRANSPORT;
 import static org.jboss.hal.testsuite.fixtures.InfinispanFixtures.CONSISTENT_HASH_STRATEGY;
 import static org.jboss.hal.testsuite.fixtures.InfinispanFixtures.cacheContainerAddress;
@@ -40,9 +41,9 @@ public class AttributesTest {
 
     @BeforeClass
     public static void setUp() throws IOException {
-        operations.add(cacheContainerAddress(CACHE_CONTAINER));
-        operations.add(cacheContainerAddress(CACHE_CONTAINER).and(TRANSPORT, JGROUPS));
-        operations.add(scatteredCacheAddress(CACHE_CONTAINER, SCATTERED_CACHE));
+        operations.add(cacheContainerAddress(CACHE_CONTAINER)).assertSuccess();
+        operations.add(cacheContainerAddress(CACHE_CONTAINER).and(TRANSPORT, JGROUPS)).assertSuccess();
+        operations.add(scatteredCacheAddress(CACHE_CONTAINER, SCATTERED_CACHE)).assertSuccess();
     }
 
     @AfterClass
@@ -71,6 +72,7 @@ public class AttributesTest {
     }
 
     @Test
+    @Ignore
     public void editConsistentHashStrategy() throws Exception {
         String currentHashStrategy =
             operations.readAttribute(scatteredCacheAddress(CACHE_CONTAINER, SCATTERED_CACHE), CONSISTENT_HASH_STRATEGY)
@@ -89,8 +91,8 @@ public class AttributesTest {
     }
 
     @Test
-    public void editModule() throws Exception {
-        crud.update(scatteredCacheAddress(CACHE_CONTAINER, SCATTERED_CACHE), page.getConfigurationForm(), MODULE);
+    public void editModules() throws Exception {
+        crud.update(scatteredCacheAddress(CACHE_CONTAINER, SCATTERED_CACHE), page.getConfigurationForm(), "modules", Collections.singletonList(Random.name()));
     }
 
     @Test
