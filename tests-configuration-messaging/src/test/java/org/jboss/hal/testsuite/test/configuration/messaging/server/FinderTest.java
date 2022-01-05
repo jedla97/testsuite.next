@@ -43,7 +43,9 @@ import static org.jboss.hal.dmr.ModelDescriptionConstants.MESSAGING_ACTIVEMQ;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.NAME;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.PATH;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.SERVER;
+import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.APPLICATION_DOMAIN;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.BINDINGS_DIRECTORY;
+import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.ELYTRON_DOMAIN;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.JOURNAL_DIRECTORY;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.LARGE_MESSAGES_DIRECTORY;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.PAGING_DIRECTORY;
@@ -72,7 +74,7 @@ public class FinderTest {
     public static void beforeClass() throws Exception {
         // the path parameters must be all different
         Batch batchSrvRead = new Batch();
-        batchSrvRead.add(serverAddress(SRV_READ));
+        batchSrvRead.add(serverAddress(SRV_READ), Values.of(ELYTRON_DOMAIN, APPLICATION_DOMAIN));
         batchSrvRead.add(serverPathAddress(SRV_READ, BINDINGS_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvRead.add(serverPathAddress(SRV_READ, JOURNAL_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvRead.add(serverPathAddress(SRV_READ, LARGE_MESSAGES_DIRECTORY), Values.of(PATH, Random.name()));
@@ -80,7 +82,7 @@ public class FinderTest {
         operations.batch(batchSrvRead);
 
         Batch batchSrvUpd = new Batch();
-        batchSrvUpd.add(serverAddress(SRV_UPDATE));
+        batchSrvUpd.add(serverAddress(SRV_UPDATE), Values.of(ELYTRON_DOMAIN, APPLICATION_DOMAIN));
         batchSrvUpd.add(serverPathAddress(SRV_UPDATE, BINDINGS_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvUpd.add(serverPathAddress(SRV_UPDATE, JOURNAL_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvUpd.add(serverPathAddress(SRV_UPDATE, LARGE_MESSAGES_DIRECTORY), Values.of(PATH, Random.name()));
@@ -88,7 +90,7 @@ public class FinderTest {
         operations.batch(batchSrvUpd);
 
         Batch batchSrvDel = new Batch();
-        batchSrvDel.add(serverAddress(SRV_DELETE));
+        batchSrvDel.add(serverAddress(SRV_DELETE), Values.of(ELYTRON_DOMAIN, APPLICATION_DOMAIN));
         batchSrvDel.add(serverPathAddress(SRV_DELETE, BINDINGS_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvDel.add(serverPathAddress(SRV_DELETE, JOURNAL_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvDel.add(serverPathAddress(SRV_DELETE, LARGE_MESSAGES_DIRECTORY), Values.of(PATH, Random.name()));

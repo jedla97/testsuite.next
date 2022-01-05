@@ -42,7 +42,9 @@ import static org.jboss.hal.dmr.ModelDescriptionConstants.MESSAGING_ACTIVEMQ;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.PATH;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.RESET_ALL_MESSAGE_COUNTERS;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.RESET_ALL_MESSAGE_COUNTER_HISTORIES;
+import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.APPLICATION_DOMAIN;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.BINDINGS_DIRECTORY;
+import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.ELYTRON_DOMAIN;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.JOURNAL_DIRECTORY;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.LARGE_MESSAGES_DIRECTORY;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.PAGING_DIRECTORY;
@@ -64,7 +66,7 @@ public class ServerFinderTest {
     @BeforeClass
     public static void beforeClass() throws Exception {
         Batch batchSrvRead = new Batch();
-        batchSrvRead.add(serverAddress(SRV_READ));
+        batchSrvRead.add(serverAddress(SRV_READ), Values.of(ELYTRON_DOMAIN, APPLICATION_DOMAIN));
         batchSrvRead.add(serverPathAddress(SRV_READ, BINDINGS_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvRead.add(serverPathAddress(SRV_READ, JOURNAL_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvRead.add(serverPathAddress(SRV_READ, LARGE_MESSAGES_DIRECTORY), Values.of(PATH, Random.name()));
@@ -72,7 +74,7 @@ public class ServerFinderTest {
         operations.batch(batchSrvRead);
 
         Batch batchSrvReset = new Batch();
-        batchSrvReset.add(serverAddress(SRV_RESET));
+        batchSrvReset.add(serverAddress(SRV_RESET), Values.of(ELYTRON_DOMAIN, APPLICATION_DOMAIN));
         batchSrvReset.add(serverPathAddress(SRV_RESET, BINDINGS_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvReset.add(serverPathAddress(SRV_RESET, JOURNAL_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvReset.add(serverPathAddress(SRV_RESET, LARGE_MESSAGES_DIRECTORY), Values.of(PATH, Random.name()));
@@ -80,7 +82,7 @@ public class ServerFinderTest {
         operations.batch(batchSrvReset);
 
         Batch batchSrvFailover = new Batch();
-        batchSrvFailover.add(serverAddress(SRV_FAILOVER));
+        batchSrvFailover.add(serverAddress(SRV_FAILOVER), Values.of(ELYTRON_DOMAIN, APPLICATION_DOMAIN));
         batchSrvFailover.add(serverPathAddress(SRV_FAILOVER, BINDINGS_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvFailover.add(serverPathAddress(SRV_FAILOVER, JOURNAL_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvFailover.add(serverPathAddress(SRV_FAILOVER, LARGE_MESSAGES_DIRECTORY), Values.of(PATH, Random.name()));

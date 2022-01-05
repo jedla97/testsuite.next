@@ -90,7 +90,7 @@ public class ViewTest {
     @BeforeClass
     public static void beforeTests() throws Exception {
         Batch batchSrvUpd = new Batch();
-        batchSrvUpd.add(serverAddress(SRV_UPDATE));
+        batchSrvUpd.add(serverAddress(SRV_UPDATE), Values.of(ELYTRON_DOMAIN, APPLICATION_DOMAIN));
         batchSrvUpd.add(serverPathAddress(SRV_UPDATE, BINDINGS_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvUpd.add(serverPathAddress(SRV_UPDATE, JOURNAL_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvUpd.add(serverPathAddress(SRV_UPDATE, LARGE_MESSAGES_DIRECTORY), Values.of(PATH, Random.name()));

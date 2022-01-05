@@ -45,7 +45,9 @@ import static org.jboss.hal.resources.Ids.MESSAGING_HA_SHARED_STORE;
 import static org.jboss.hal.resources.Ids.MESSAGING_HA_SHARED_STORE_COLOCATED;
 import static org.jboss.hal.resources.Ids.MESSAGING_HA_SHARED_STORE_MASTER;
 import static org.jboss.hal.resources.Ids.MESSAGING_HA_SHARED_STORE_SLAVE;
+import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.APPLICATION_DOMAIN;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.BINDINGS_DIRECTORY;
+import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.ELYTRON_DOMAIN;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.JOURNAL_DIRECTORY;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.LARGE_MESSAGES_DIRECTORY;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.PAGING_DIRECTORY;
@@ -62,7 +64,7 @@ public abstract class AbstractHaPolicyTest {
     @BeforeClass
     public static void beforeTests() throws Exception {
         Batch batchSrvUpd = new Batch();
-        batchSrvUpd.add(serverAddress(SRV_UPDATE));
+        batchSrvUpd.add(serverAddress(SRV_UPDATE), Values.of(ELYTRON_DOMAIN, APPLICATION_DOMAIN));
         batchSrvUpd.add(serverPathAddress(SRV_UPDATE, BINDINGS_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvUpd.add(serverPathAddress(SRV_UPDATE, JOURNAL_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvUpd.add(serverPathAddress(SRV_UPDATE, LARGE_MESSAGES_DIRECTORY), Values.of(PATH, Random.name()));

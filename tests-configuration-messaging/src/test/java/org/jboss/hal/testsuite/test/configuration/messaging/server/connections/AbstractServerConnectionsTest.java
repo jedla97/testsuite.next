@@ -39,7 +39,9 @@ import static org.jboss.hal.dmr.ModelDescriptionConstants.PATH;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.POOLED_CONNECTION_FACTORY;
 import static org.jboss.hal.resources.Ids.MESSAGING_SERVER;
 import static org.jboss.hal.resources.Ids.TAB;
+import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.APPLICATION_DOMAIN;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.BINDINGS_DIRECTORY;
+import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.ELYTRON_DOMAIN;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.JOURNAL_DIRECTORY;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.LARGE_MESSAGES_DIRECTORY;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.PAGING_DIRECTORY;
@@ -56,7 +58,7 @@ public abstract class AbstractServerConnectionsTest {
 
     protected static void createServer(String name) throws IOException {
         Batch batchSrvUpd = new Batch();
-        batchSrvUpd.add(serverAddress(name));
+        batchSrvUpd.add(serverAddress(name), Values.of(ELYTRON_DOMAIN, APPLICATION_DOMAIN));
         batchSrvUpd.add(serverPathAddress(name, BINDINGS_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvUpd.add(serverPathAddress(name, JOURNAL_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrvUpd.add(serverPathAddress(name, LARGE_MESSAGES_DIRECTORY), Values.of(PATH, Random.name()));

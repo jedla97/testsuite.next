@@ -68,11 +68,11 @@ public final class MessagingFixtures {
     private static final String CORE_PREFIX = "core";
     private static final String DISCOVERY_GROUP_PREFIX = "dg";
     private static final String DIVERT_PREFIX = "divert";
-    private static final String GROUPING_HANDLER = "gh";
+    private static final String GROUPING_HANDLER = "grouping-handler";
     private static final String JMS_QUEUE_PREFIX = "jmsqueue";
     private static final String JMS_TOPIC_PREFIX = "topic";
     private static final String JMSBRIDGE_PREFIX = "jmsbridge";
-    private static final String POOLED_CONNECTION_FACTORY = "pcf";
+    private static final String POOLED_CONNECTION_FACTORY = "pooled-connection-factory";
     private static final String SECURITY_SETTINGS_PREFIX = "sec-set";
     private static final String SERVER_PREFIX = "srv";
     private static final String TRY_UPDATE = "try-update";
