@@ -45,6 +45,7 @@ public class PooledConnectionFactoryTest extends AbstractPooledConnectionFactory
                 RemoteActiveMQServer.pooledConnectionFactoryAddress(POOLED_CONNECTION_FACTORY_CREATE));
             operations.removeIfExists(
                 RemoteActiveMQServer.pooledConnectionFactoryAddress(POOLED_CONNECTION_FACTORY_DELETE));
+            operations.removeIfExists(RemoteActiveMQServer.discoveryGroupAddress(DISCOVERY_GROUP_CREATE));
             operations.removeIfExists(JGroupsFixtures.channelAddress(JGROUPS_CHANNEL));
         } finally {
             client.close();
