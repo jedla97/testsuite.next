@@ -46,7 +46,6 @@ import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.POOL_CONN_DELET
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.POOL_CONN_TRY_UPDATE;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.POOL_CONN_UPDATE;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.SRV_UPDATE;
-import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.connectionFactoryAddress;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.discoveryGroupAddress;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.pooledConnectionFactoryAddress;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.serverAddress;
@@ -111,7 +110,7 @@ public class PooledConnectionFactoryTest extends AbstractServerConnectionsTest {
         FormFragment form = page.getPooledConnectionFactoryForm();
         table.bind(form);
         table.select(POOL_CONN_UPDATE);
-        crudOperations.update(connectionFactoryAddress(SRV_UPDATE, POOL_CONN_UPDATE), form,
+        crudOperations.update(pooledConnectionFactoryAddress(SRV_UPDATE, POOL_CONN_UPDATE), form,
                 formFragment -> {
                     formFragment.number(CALL_TIMEOUT, 123L);
                     formFragment.flip("use-topology-for-load-balancing", false);

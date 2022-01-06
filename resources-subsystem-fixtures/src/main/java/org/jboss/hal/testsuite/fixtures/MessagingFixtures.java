@@ -32,6 +32,7 @@ import static org.jboss.hal.dmr.ModelDescriptionConstants.DISCOVERY_GROUP;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.DIVERT;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.EXTERNAL_JMS_QUEUE;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.EXTERNAL_JMS_TOPIC;
+import static org.jboss.hal.dmr.ModelDescriptionConstants.GROUPING_HANDLER;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.HA_POLICY;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.HTTP_ACCEPTOR;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.HTTP_CONNECTOR;
@@ -42,6 +43,7 @@ import static org.jboss.hal.dmr.ModelDescriptionConstants.JMS_QUEUE;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.JMS_TOPIC;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.MESSAGING_ACTIVEMQ;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.PATH;
+import static org.jboss.hal.dmr.ModelDescriptionConstants.POOLED_CONNECTION_FACTORY;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.QUEUE;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.REMOTE_ACCEPTOR;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.REMOTE_CONNECTOR;
@@ -68,11 +70,11 @@ public final class MessagingFixtures {
     private static final String CORE_PREFIX = "core";
     private static final String DISCOVERY_GROUP_PREFIX = "dg";
     private static final String DIVERT_PREFIX = "divert";
-    private static final String GROUPING_HANDLER = "grouping-handler";
+    private static final String GROUPING_HANDLER_PREFIX = "gh";
     private static final String JMS_QUEUE_PREFIX = "jmsqueue";
     private static final String JMS_TOPIC_PREFIX = "topic";
     private static final String JMSBRIDGE_PREFIX = "jmsbridge";
-    private static final String POOLED_CONNECTION_FACTORY = "pooled-connection-factory";
+    private static final String POOLED_CONNECTION_FACTORY_PREFIX = "pcf";
     private static final String SECURITY_SETTINGS_PREFIX = "sec-set";
     private static final String SERVER_PREFIX = "srv";
     private static final String TRY_UPDATE = "try-update";
@@ -353,14 +355,14 @@ public final class MessagingFixtures {
 
     // ------------------------------------------------------ server / connections / pooled connection factory
 
-    public static final String POOL_CONN_CREATE = Ids.build(POOLED_CONNECTION_FACTORY, CrudConstants.CREATE,
+    public static final String POOL_CONN_CREATE = Ids.build(POOLED_CONNECTION_FACTORY_PREFIX, CrudConstants.CREATE,
             Random.name());
-    public static final String POOL_CONN_CREATE_ENTRY = Ids.build(POOLED_CONNECTION_FACTORY, "-entry", Random.name());
+    public static final String POOL_CONN_CREATE_ENTRY = Ids.build(POOLED_CONNECTION_FACTORY_PREFIX, "-entry", Random.name());
     public static final String POOL_CONN_UPDATE =
-            Ids.build(POOLED_CONNECTION_FACTORY, CrudConstants.UPDATE, Random.name());
-    public static final String POOL_CONN_TRY_UPDATE = Ids.build(POOLED_CONNECTION_FACTORY, TRY_UPDATE, Random.name());
+            Ids.build(POOLED_CONNECTION_FACTORY_PREFIX, CrudConstants.UPDATE, Random.name());
+    public static final String POOL_CONN_TRY_UPDATE = Ids.build(POOLED_CONNECTION_FACTORY_PREFIX, TRY_UPDATE, Random.name());
     public static final String POOL_CONN_DELETE =
-            Ids.build(POOLED_CONNECTION_FACTORY, CrudConstants.DELETE, Random.name());
+            Ids.build(POOLED_CONNECTION_FACTORY_PREFIX, CrudConstants.DELETE, Random.name());
 
     public static Address pooledConnectionFactoryAddress(String server, String name) {
         return serverAddress(server).and(POOLED_CONNECTION_FACTORY, name);
@@ -406,9 +408,9 @@ public final class MessagingFixtures {
 
     // ------------------------------------------------------ server / grouping-handler
 
-    public static final String GH_CREATE = Ids.build(GROUPING_HANDLER, CrudConstants.CREATE, Random.name());
-    public static final String GH_UPDATE = Ids.build(GROUPING_HANDLER, CrudConstants.UPDATE, Random.name());
-    public static final String GH_DELETE = Ids.build(GROUPING_HANDLER, CrudConstants.DELETE, Random.name());
+    public static final String GH_CREATE = Ids.build(GROUPING_HANDLER_PREFIX, CrudConstants.CREATE, Random.name());
+    public static final String GH_UPDATE = Ids.build(GROUPING_HANDLER_PREFIX, CrudConstants.UPDATE, Random.name());
+    public static final String GH_DELETE = Ids.build(GROUPING_HANDLER_PREFIX, CrudConstants.DELETE, Random.name());
 
     public static Address groupingHandlerAddress(String server, String name) {
         return serverAddress(server).and(GROUPING_HANDLER, name);
