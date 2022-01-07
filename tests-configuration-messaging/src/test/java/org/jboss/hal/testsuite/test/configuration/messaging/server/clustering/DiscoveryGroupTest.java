@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.hal.resources.Ids;
+import org.jboss.hal.testsuite.Random;
 import org.jboss.hal.testsuite.fragment.FormFragment;
 import org.jboss.hal.testsuite.fragment.TableFragment;
 import org.junit.AfterClass;
@@ -12,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.wildfly.extras.creaper.core.online.operations.OperationException;
+import org.wildfly.extras.creaper.core.online.operations.Values;
 
 import static org.jboss.hal.dmr.ModelDescriptionConstants.EE;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.HTTP;
@@ -36,9 +38,9 @@ public class DiscoveryGroupTest extends AbstractClusteringTest {
     @BeforeClass
     public static void createResources() throws IOException {
         createServer(SRV_UPDATE);
-        operations.add(discoveryGroupAddress(SRV_UPDATE, DG_UPDATE)).assertSuccess();
-        operations.add(discoveryGroupAddress(SRV_UPDATE, DG_UPDATE_ALTERNATIVES)).assertSuccess();
-        operations.add(discoveryGroupAddress(SRV_UPDATE, DG_DELETE)).assertSuccess();
+        operations.add(discoveryGroupAddress(SRV_UPDATE, DG_UPDATE), Values.of(JGROUPS_CLUSTER, Random.name())).assertSuccess();
+        operations.add(discoveryGroupAddress(SRV_UPDATE, DG_UPDATE_ALTERNATIVES), Values.of(JGROUPS_CLUSTER, Random.name())).assertSuccess();
+        operations.add(discoveryGroupAddress(SRV_UPDATE, DG_DELETE), Values.of(JGROUPS_CLUSTER, Random.name())).assertSuccess();
     }
 
     @AfterClass

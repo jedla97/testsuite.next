@@ -45,8 +45,8 @@ public class DiscoveryGroupTest {
 
     @BeforeClass
     public static void setUp() throws IOException, CommandFailedException {
-        operations.add(RemoteActiveMQServer.discoveryGroupAddress(DISCOVERY_GROUP_UPDATE)).assertSuccess();
-        operations.add(RemoteActiveMQServer.discoveryGroupAddress(DISCOVERY_GROUP_DELETE)).assertSuccess();
+        operations.add(RemoteActiveMQServer.discoveryGroupAddress(DISCOVERY_GROUP_UPDATE), Values.of(JGROUPS_CLUSTER, Random.name())).assertSuccess();
+        operations.add(RemoteActiveMQServer.discoveryGroupAddress(DISCOVERY_GROUP_DELETE), Values.of(JGROUPS_CLUSTER, Random.name())).assertSuccess();
         AddLocalSocketBinding addLocalSocketBinding = new AddLocalSocketBinding(LOCAL_SOCKET_BINDING);
         client.apply(addLocalSocketBinding);
         operations.add(JGroupsFixtures.channelAddress(JGROUPS_CHANNEL_UPDATE), Values.of("stack", "tcp")).assertSuccess();

@@ -64,9 +64,8 @@ public class ConnectionFactoryTest {
 
     private static void createDiscoveryGroup(String name) throws IOException {
         Batch batch = new Batch();
-        batch.add(RemoteActiveMQServer.discoveryGroupAddress(name));
+        batch.add(RemoteActiveMQServer.discoveryGroupAddress(name), Values.of("jgroups-cluster", Random.name()));
         batch.writeAttribute(RemoteActiveMQServer.discoveryGroupAddress(name), "jgroups-channel", JGROUPS_CHANNEL);
-        batch.writeAttribute(RemoteActiveMQServer.discoveryGroupAddress(name), "jgroups-cluster", Random.name());
         operations.batch(batch).assertSuccess();
     }
 

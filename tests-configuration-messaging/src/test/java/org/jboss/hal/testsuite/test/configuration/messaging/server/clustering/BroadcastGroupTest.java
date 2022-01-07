@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.hal.resources.Ids;
+import org.jboss.hal.testsuite.Random;
+import org.jboss.hal.testsuite.creaper.command.AddLocalSocketBinding;
 import org.jboss.hal.testsuite.fragment.FormFragment;
 import org.jboss.hal.testsuite.fragment.TableFragment;
 import org.junit.AfterClass;
@@ -11,7 +13,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.extras.creaper.core.CommandFailedException;
 import org.wildfly.extras.creaper.core.online.operations.OperationException;
+import org.wildfly.extras.creaper.core.online.operations.Values;
 
 import static org.jboss.hal.dmr.ModelDescriptionConstants.EE;
 import static org.jboss.hal.dmr.ModelDescriptionConstants.HTTP;
@@ -27,16 +31,34 @@ import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.JGROUPS_CHANNEL
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.JGROUPS_CLUSTER;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.SRV_UPDATE;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.broadcastGroupAddress;
+import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.connectorHttpAddress;
 import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.serverAddress;
 
 @RunWith(Arquillian.class)
 public class BroadcastGroupTest extends AbstractClusteringTest {
 
+    private static final String HTTP_CONNECTOR_UPDATE = "http-connector-to-update-" + Random.name();
+    private static final String HTTP_CONNECTOR_DELETE = "http-connector-to-delete-" + Random.name();
+
+    private static final String LOCAL_SOCKET_BINDING = "local-socket-binding-update-" + Random.name();
+
+    private static final String HTTP_CONNESTORS = "connectors";
+
     @BeforeClass
-    public static void createResources() throws IOException {
+    public static void createResources() throws IOException, CommandFailedException {
+        client.apply(new AddLocalSocketBinding(LOCAL_SOCKET_BINDING));
         createServer(SRV_UPDATE);
-        operations.add(broadcastGroupAddress(SRV_UPDATE, BG_UPDATE)).assertSuccess();
-        operations.add(broadcastGroupAddress(SRV_UPDATE, BG_DELETE)).assertSuccess();
+        createHttpConnector(HTTP_CONNECTOR_DELETE, LOCAL_SOCKET_BINDING);
+        createHttpConnector(HTTP_CONNECTOR_UPDATE, LOCAL_SOCKET_BINDING);
+        operations.add(broadcastGroupAddress(SRV_UPDATE, BG_UPDATE), Values.of(JGROUPS_CLUSTER, Random.name())
+                .andList(HTTP_CONNESTORS, HTTP_CONNECTOR_UPDATE)).assertSuccess();
+        operations.add(broadcastGroupAddress(SRV_UPDATE, BG_DELETE), Values.of(JGROUPS_CLUSTER, Random.name())
+                .andList(HTTP_CONNESTORS, HTTP_CONNECTOR_DELETE)).assertSuccess();
+    }
+
+    private static void createHttpConnector(String name, String socketBinding) throws IOException {
+        operations.add(connectorHttpAddress(SRV_UPDATE, name), Values.of("endpoint", Random.name())
+                .and("socket-binding", socketBinding)).assertSuccess();
     }
 
     @AfterClass
