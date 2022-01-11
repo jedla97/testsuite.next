@@ -140,7 +140,7 @@ public class FinderTest {
     @Test
     public void refresh() throws Exception {
         Batch batchSrv2 = new Batch();
-        batchSrv2.add(serverAddress(SRV_CREATE2));
+        batchSrv2.add(serverAddress(SRV_CREATE2), Values.of(ELYTRON_DOMAIN, APPLICATION_DOMAIN));
         batchSrv2.add(serverPathAddress(SRV_CREATE2, BINDINGS_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrv2.add(serverPathAddress(SRV_CREATE2, JOURNAL_DIRECTORY), Values.of(PATH, Random.name()));
         batchSrv2.add(serverPathAddress(SRV_CREATE2, LARGE_MESSAGES_DIRECTORY), Values.of(PATH, Random.name()));

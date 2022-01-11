@@ -39,18 +39,19 @@ import static org.jboss.hal.testsuite.fixtures.MessagingFixtures.serverAddress;
 @RunWith(Arquillian.class)
 public class ConnectionFactoryTest extends AbstractServerConnectionsTest {
 
+    private static final String DG_NAME = Random.name();
+
     @BeforeClass
     public static void createResources() throws IOException, InterruptedException, TimeoutException {
         createServer(SRV_UPDATE);
-        String discoveryGroup = Random.name();
-        operations.add(discoveryGroupAddress(SRV_UPDATE, discoveryGroup), Values.of(JGROUPS_CLUSTER, Random.name())).assertSuccess();
+        operations.add(discoveryGroupAddress(SRV_UPDATE, DG_NAME), Values.of(JGROUPS_CLUSTER, Random.name())).assertSuccess();
         administration.reload();
         operations.add(connectionFactoryAddress(SRV_UPDATE, CONN_FAC_UPDATE),
-                Values.ofList(ENTRIES, Random.name()).and(DISCOVERY_GROUP, discoveryGroup)).assertSuccess();
+                Values.ofList(ENTRIES, Random.name()).and(DISCOVERY_GROUP, DG_NAME)).assertSuccess();
         operations.add(connectionFactoryAddress(SRV_UPDATE, CONN_FAC_TRY_UPDATE),
-                Values.ofList(ENTRIES, Random.name()).and(DISCOVERY_GROUP, discoveryGroup)).assertSuccess();
+                Values.ofList(ENTRIES, Random.name()).and(DISCOVERY_GROUP, DG_NAME)).assertSuccess();
         operations.add(connectionFactoryAddress(SRV_UPDATE, CONN_FAC_DELETE),
-                Values.ofList(ENTRIES, Random.name()).and(DISCOVERY_GROUP, discoveryGroup)).assertSuccess();
+                Values.ofList(ENTRIES, Random.name()).and(DISCOVERY_GROUP, DG_NAME)).assertSuccess();
     }
 
     @AfterClass
@@ -73,7 +74,7 @@ public class ConnectionFactoryTest extends AbstractServerConnectionsTest {
         crudOperations.create(connectionFactoryAddress(SRV_UPDATE, CONN_FAC_CREATE), table,
                 formFragment -> {
                     formFragment.text(NAME, CONN_FAC_CREATE);
-                    formFragment.text(DISCOVERY_GROUP, Random.name());
+                    formFragment.text(DISCOVERY_GROUP, DG_NAME);
                     formFragment.list(ENTRIES).add(CONN_FAC_CREATE_ENTRY);
                 }
         );
